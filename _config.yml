@@ -1,0 +1,32 @@
+title: Afnan Ahmad
+description: Short link redirect service
+baseurl: ""
+url: "https://redirect.afnanahmad.github.io"
+
+# Developer-focused theme with terminal/code editor aesthetic
+remote_theme: b2a3e8/jekyll-theme-console
+
+# Theme settings
+header_pages:
+  - index.md
+
+# Style options: dark (default), light, hacker, nord
+style: dark
+
+# Use Hack font (monospace developer font)
+google_fonts: false
+
+# Footer text
+footer: 'Follow me on <a href="https://github.com/afnanahmad">GitHub</a>'
+
+plugins:
+  - jekyll-redirect-from
+  - jekyll-remote-theme
+
+# Optional: exclude files from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+
+  
