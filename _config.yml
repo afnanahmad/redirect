@@ -1,7 +1,7 @@
 title: Afnan Ahmad
 description: Short link redirect service
 baseurl: ""
-url: "https://redirect.afnanahmad.github.io"
+url: "https://afnanahmad.github.io/redirect/"
 
 # Developer-focused theme with terminal/code editor aesthetic
 remote_theme: b2a3e8/jekyll-theme-console
