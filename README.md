@@ -37,7 +37,7 @@ This site provides clean, memorable short URLs that redirect to various profiles
 ### Prerequisites
 
 - Ruby 3.x
-- Bundler
+- Bundler (`gem install bundler`)
 
 ### Setup
 
@@ -62,7 +62,7 @@ bundle exec jekyll build
 bundle exec jekyll serve
 ```
 
-Visit `http://localhost:4000` to view the site.
+Visit `http://localhost:4000/redirect/` to view the site (note the `/redirect/` path to match GitHub Pages deployment).
 
 ## Adding New Redirects
 
@@ -101,14 +101,100 @@ Key settings in `_config.yml`:
 ```yaml
 title: Afnan Ahmad
 description: Short link redirect service
-url: "https://redirect.afnanahmad.github.io"
+baseurl: "/link"  # Important: Must match your GitHub Pages path
+url: "https://afnanahmad.github.io"
 remote_theme: b2a3e8/jekyll-theme-console
 style: dark
+disable_google_fonts: true  # We use Hack font instead
 ```
 
-## Custom CSS
+### Important: GitHub Pages Deployment
 
-The Hack font is loaded via [assets/css/custom.css](assets/css/custom.css), which imports the font from CDN and applies it globally.
+When deploying to GitHub Pages at a project site (not user site), you **must** configure the `baseurl`:
+
+- ✅ **Project Site** (e.g., `username.github.io/project/`):
+  ```yaml
+  baseurl: "/project"
+  url: "https://username.github.io"
+  ```
+
+- ✅ **User Site** (e.g., `username.github.io/`):
+  ```yaml
+  baseurl: ""
+  url: "https://username.github.io"
+  ```
+
+This ensures all CSS and asset paths work correctly on GitHub Pages.
+
+## Custom Font Implementation
+
+The Hack font is implemented through:
+
+1. **Custom Layout** ([_layouts/default.html](_layouts/default.html)): Updates Content Security Policy to allow the Hack font CDN
+2. **Custom Head Include** ([_includes/head.html](_includes/head.html)): Loads Hack font from CDN and applies it globally
+
+This approach:
+- Disables Google Fonts to reduce external dependencies
+- Uses the professional Hack font optimized for code readability
+- Properly configures CSP headers for security while allowing the CDN
+
+## Project Structure
+
+```
+redirect/
+├── _config.yml              # Jekyll configuration
+├── _includes/
+│   └── head.html           # Custom head with Hack font
+├── _layouts/
+│   └── default.html        # Custom layout with updated CSP
+├── _site/                  # Generated site (ignored in git)
+├── .gitignore              # Git ignore rules
+├── Gemfile                 # Ruby dependencies
+├── README.md               # This file
+├── index.md                # Homepage with link list
+└── *.md                    # Individual redirect pages
+```
+
+## Troubleshooting
+
+### CSS 404 Errors on GitHub Pages
+
+If you see 404 errors for CSS files (like `main-dark.css`) after deploying:
+
+1. **Check your `baseurl` in `_config.yml`**:
+   - Must match your GitHub Pages URL path
+   - For `username.github.io/redirect/`, use `baseurl: "/redirect"`
+   - For `username.github.io/`, use `baseurl: ""`
+
+2. **Verify the GitHub Pages source**:
+   - Go to repository Settings → Pages
+   - Ensure "Source" is set to the correct branch (usually `main`)
+   - Check that the site is building successfully
+
+3. **Wait for deployment**:
+   - GitHub Pages can take 1-2 minutes to rebuild after pushing
+   - Check the Actions tab for build status
+
+### Font Not Loading
+
+If the Hack font isn't appearing:
+
+1. **Check browser console** for CSP violations
+2. **Verify `_includes/head.html`** includes the Hack font CDN link
+3. **Ensure `_layouts/default.html`** allows `cdn.jsdelivr.net` in CSP
+
+### Local Development Issues
+
+If `bundle exec jekyll serve` fails:
+
+```bash
+# Update dependencies
+bundle update
+
+# Clean and rebuild
+bundle exec jekyll clean
+bundle exec jekyll build
+```
 
 ## License
 
