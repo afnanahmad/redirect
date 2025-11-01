@@ -130,12 +130,19 @@ This ensures all CSS and asset paths work correctly on GitHub Pages.
 
 The Hack font is implemented through:
 
-1. **Custom Layout** ([_layouts/default.html](_layouts/default.html)): Updates Content Security Policy to allow the Hack font CDN
-2. **Custom Head Include** ([_includes/head.html](_includes/head.html)): Loads Hack font from CDN and applies it globally
+1. **Custom Layout** ([_layouts/default.html](_layouts/default.html)): Updates Content Security Policy to allow the Hack font CDN and inline styles
+2. **Custom Head Include** ([_includes/head.html](_includes/head.html)): Loads Hack font from CDN and applies it globally via inline CSS
+
+**Content Security Policy Configuration:**
+```
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:;
+```
 
 This approach:
 - Disables Google Fonts to reduce external dependencies
 - Uses the professional Hack font optimized for code readability
+- Allows inline styles (`'unsafe-inline'`) for font application
 - Properly configures CSP headers for security while allowing the CDN
 
 ## Project Structure
